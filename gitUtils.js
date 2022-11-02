@@ -10,22 +10,24 @@ export const setupUser = async () => {
 };
 
 export const diff = async (path) => {
-  return await exec("git", ["diff", "--exit-code", path]);
+  return await exec("git", ["diff", "--exit-code", path], {
+    ignoreReturnCode: true,
+  });
 };
 
 export const checkout = async (branch) => {
-  const { stderr } = await execWithOutput("git", ["checkout", "-b", branch], {
+  const exitCode = await exec("git", ["checkout", "-b", branch], {
     ignoreReturnCode: true,
   });
 
-  if (stderr) {
+  if (exitCode !== 0) {
     await exec("git", ["branch", "-D", branch]);
     await exec("git", ["checkout", "-b", branch]);
   }
 };
 
 export const commit = async (message, path) => {
-  await exec("git", ["add", path, "."]);
+  await exec("git", ["add", path]);
   await exec("git", ["commit", "-m", message]);
 };
 
@@ -36,29 +38,3 @@ export const push = async (branch) => {
 export const pull = async (branch) => {
   await exec("git", ["pull", "origin", branch]);
 };
-
-export const checkIfClean = async () => {
-  const { stdout } = await execWithOutput("git", ["status"]);
-  return !stdout.length;
-};
-
-async function execWithOutput(command, args, options) {
-  let output = "";
-  let error = "";
-
-  return {
-    code: await exec(command, args, {
-      listeners: {
-        stdout: (data) => {
-          output += data.toString();
-        },
-        stderr: (data) => {
-          error += data.toString();
-        },
-      },
-      ...options,
-    }),
-    stdout: output,
-    stderr: error,
-  };
-}

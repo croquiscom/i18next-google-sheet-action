@@ -1,5 +1,4 @@
 on: [push]
-
 jobs:
   i18next-sheet-sync:
     runs-on: ubuntu-latest
@@ -15,3 +14,4 @@ jobs:
           spreadsheet-id: "1jnf4gPynVwMhHBb3OTeh9Z_Aa778qf4hnJWlMGgC2no"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GOOGLE_SPREADSHEET_CREDENTIALS: "./credentials.json"
