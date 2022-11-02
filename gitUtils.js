@@ -25,12 +25,16 @@ export const checkout = async (branch) => {
 };
 
 export const commit = async (message, path) => {
-  await exec("git", ["add", path]);
+  await exec("git", ["add", path, "."]);
   await exec("git", ["commit", "-m", message]);
 };
 
 export const push = async (branch) => {
   await exec("git", ["push", "-u", "-f", "origin", branch]);
+};
+
+export const pull = async (branch) => {
+  await exec("git", ["pull", "origin", branch]);
 };
 
 export const checkIfClean = async () => {

@@ -18,7 +18,6 @@ import * as gitUtils from "./gitUtils.js";
     //   credentialsFile: GOOGLE_SPREADSHEET_CREDENTIALS,
     // });
 
-    // not a git repository (or any parent up to mount point /Users/pepper.ha/Desktop/kakaostyle)
     if ((await gitUtils.diff(path)) === 0) {
       console.log("no diff");
       return;
