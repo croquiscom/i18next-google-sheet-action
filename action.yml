@@ -1,0 +1,17 @@
+name: "i18next-google-sheet-action"
+description: "Actions to automate the translation process"
+inputs:
+  path:
+    description: "path of locales directory"
+    required: true
+    default: "locales/"
+  range:
+    description: "range of spreadsheet"
+    required: true
+    default: "시트1"
+  spreadsheet-id:
+    description: "spreadsheed id"
+    required: true
+runs:
+  using: "node16"
+  main: "dist/index.mjs"

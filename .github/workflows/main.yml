@@ -1,0 +1,17 @@
+on: [push]
+
+jobs:
+  i18next-sheet-sync:
+    runs-on: ubuntu-latest
+    name: sync locales with google sheet
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: sync locales
+        uses: ./
+        with:
+          path: "locales/"
+          range: "시트1"
+          spreadsheet-id: "1jnf4gPynVwMhHBb3OTeh9Z_Aa778qf4hnJWlMGgC2no"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
