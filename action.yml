@@ -12,6 +12,9 @@ inputs:
   spreadsheet-id:
     description: "spreadsheet id"
     required: true
+outputs:
+  stats:
+    description: "i18next sync result"
 runs:
   using: "node16"
   main: "dist/index.mjs"
