@@ -63,7 +63,7 @@ function getPrBody(stats) {
       path,
       range,
       spreadsheet_id: spreadsheetId,
-      credentials_file: GOOGLE_SPREADSHEET_CREDENTIALS,
+      credentials_json: GOOGLE_SPREADSHEET_CREDENTIALS,
     });
 
     console.log("checking diff");
