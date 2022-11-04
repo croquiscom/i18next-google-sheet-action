@@ -16,5 +16,5 @@ outputs:
   stats:
     description: "i18next sync result"
 runs:
-  using: "node14"
+  using: "node16"
   main: "dist/index.mjs"
