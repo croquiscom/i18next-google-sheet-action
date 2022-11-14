@@ -118,7 +118,7 @@ function getPrBody(stats) {
     }
 
     core.setOutput("stats", getStatsSummary(stats_list));
-    core.setOutput("has-changed", hasSpreadsheetChanged(stats_list));
+    core.setOutput("changed", hasSpreadsheetChanged(stats_list));
   } catch (error) {
     core.setFailed(error.message);
   }
