@@ -11,8 +11,10 @@ const STATS_KEYS = {
   pruned: "미사용으로 변경된 항목",
 };
 
+const SPREADSHEET_MUTABLE_STATS = ["added", "reused", "pruned"];
+
 function getStatsSummary(stats) {
-  return Object.entries(stats)
+  return stats
     .map(
       ([key, { count, namespaces }]) =>
         `- ${STATS_KEYS[key]}: ${count} ${
@@ -20,6 +22,12 @@ function getStatsSummary(stats) {
         }`
     )
     .join("\n");
+}
+
+function hasSpreadsheetChanged(stats) {
+  return stats.some(
+    ([key, { count }]) => SPREADSHEET_MUTABLE_STATS.includes(key) && count > 0
+  );
 }
 
 function getPrBody(stats) {
@@ -65,6 +73,7 @@ function getPrBody(stats) {
       spreadsheet_id: spreadsheetId,
       credentials_json: GOOGLE_SPREADSHEET_CREDENTIALS,
     });
+    const stats_list = Object.entries(stats);
 
     console.log("checking diff");
     if ((await gitUtils.diff(path)) === 0) {
@@ -87,7 +96,7 @@ function getPrBody(stats) {
     await gitUtils.commit(commitMessage, path);
     await gitUtils.push(newBranch);
 
-    const prBody = getPrBody(stats);
+    const prBody = getPrBody(stats_list);
     if (searchResult.data.items.length === 0) {
       console.log("creating pull request");
       await octokit.rest.pulls.create({
@@ -108,7 +117,8 @@ function getPrBody(stats) {
       });
     }
 
-    core.setOutput("stats", getStatsSummary(stats));
+    core.setOutput("stats", getStatsSummary(stats_list));
+    core.setOutput("has-changed", hasSpreadsheetChanged(stats_list));
   } catch (error) {
     core.setFailed(error.message);
   }
