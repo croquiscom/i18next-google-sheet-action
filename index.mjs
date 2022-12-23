@@ -66,12 +66,14 @@ function getPrBody(stats) {
     const path = core.getInput("path");
     const range = core.getInput("range");
     const spreadsheetId = core.getInput("spreadsheet-id");
+    const escapeNonPrintableUnicodeCharacters = core.getBooleanInput('escape-non-printable-unicode-characters');
 
     const stats = await i18nextGoogleSheet({
       path,
       range,
       spreadsheet_id: spreadsheetId,
       credentials_json: GOOGLE_SPREADSHEET_CREDENTIALS,
+      escape_non_printable_unicode_characters: escapeNonPrintableUnicodeCharacters,
     });
     const stats_list = Object.entries(stats);
 
