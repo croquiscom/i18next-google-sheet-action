@@ -12,6 +12,9 @@ inputs:
   spreadsheet-id:
     description: "spreadsheet id"
     required: true
+  escape-non-printable-unicode-characters:
+    description: "whether to escape non-printable unicode characters"
+    default: true
 outputs:
   stats:
     description: "i18next sync result"
